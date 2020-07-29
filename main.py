@@ -16,7 +16,7 @@ class ImageType(BaseModel):
 
 
 def read_img(img):
-    pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/share/tesseract-ocr/4.00/tessdata'
+    pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
     # pytesseract.pytesseract.tesseract_cmd = r'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
     text = pytesseract.image_to_string(img)
     return (text)
