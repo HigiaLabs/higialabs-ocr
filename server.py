@@ -8,18 +8,20 @@ import cv2
 import pytesseract
 from pydantic import BaseModel
 
-
-def read_img(img):
-     text = pytesseract.image_to_string(img)
-     return(text)
-
 app = FastAPI()
+
+
 class ImageType(BaseModel):
     url: str
-    
-    
-@app.post ('/predict/') 
-def prediction(request: Request,file: bytes = File(...)):
+
+
+def read_img(img):
+    text = pytesseract.image_to_string(img)
+    return (text)
+
+
+@app.post('/predict/')
+def prediction(request: Request, file: bytes = File(...)):
     try:
         if request.method == 'POST':
             image_stream = io.BytesIO(file)
@@ -29,6 +31,6 @@ def prediction(request: Request,file: bytes = File(...)):
             label = read_img(frame)
             return label
         return 'No post request found'
-    
-    except AssertionError as e:
+
+    except AssertionError:
         assert 'Erro ao processar'
