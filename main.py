@@ -25,7 +25,6 @@ def read_img(img):
 app = FastAPI()
 
 
-
 @app.post('/predict/')
 def prediction(request: Request, file: bytes = File(...)):
     try:
