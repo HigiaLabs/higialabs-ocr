@@ -1,30 +1,43 @@
-try:
-    from PIL import Image
-except ImportError:
-    import Image
-import pytesseract
-from cv2 import *
+#####pythoncode.py#####
+import numpy as np
+import sys, os
+from fastapi import FastAPI, UploadFile, File
+from starlette.requests import Request
+import io
 import cv2
-import re
+import pytesseract
+from pydantic import BaseModel
 
-pytesseract.pytesseract.tesseract_cmd = r'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
+app = FastAPI()
 
-imagem = 'modelo_cupom_fiscal.png'
 
-img = cv2.imread(imagem)
-gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-gauss = cv2.GaussianBlur(gray, (1,1), 5)
+class ImageType(BaseModel):
+    url: str
 
-ret, thresh = cv2.threshold(gauss, 127, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-texto = pytesseract.image_to_string(thresh,lang='por')
 
-with open("texto.txt", "w") as text_file:
-    text_file.write(texto)
+def read_img(img):
+    pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseractgit '
+    # pytesseract.pytesseract.tesseract_cmd = r'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
+    text = pytesseract.image_to_string(img)
+    return (text)
 
-cv2.imshow('Imagem', thresh)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
-exit()
+
+app = FastAPI()
 
 
 
+@app.post('/predict/')
+def prediction(request: Request, file: bytes = File(...)):
+    try:
+
+        if request.method == 'POST':
+            image_stream = io.BytesIO(file)
+            image_stream.seek(0)
+            file_bytes = np.asarray(bytearray(image_stream.read()), dtype=np.uint8)
+            frame = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
+            label = read_img(frame)
+            return label
+        return 'No post request found'
+
+    except AssertionError:
+        assert 'Erro ao processar'
