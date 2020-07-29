@@ -20,11 +20,14 @@ class ImageType(BaseModel):
     
 @app.post ("/predict/") 
 def prediction(request: Request,file: bytes = File(...)):
-    if request.method == "POST":
-        image_stream = io.BytesIO(file)
-        image_stream.seek(0)
-        file_bytes = np.asarray(bytearray(image_stream.read()), dtype=np.uint8)
-        frame = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
-        label = read_img(frame)
-        return label
-    return "No post request found"
+    try:
+        if request.method == "POST":
+            image_stream = io.BytesIO(file)
+            image_stream.seek(0)
+            file_bytes = np.asarray(bytearray(image_stream.read()), dtype=np.uint8)
+            frame = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
+            label = read_img(frame)
+            return label
+        return "No post request found"
+    except AssertionError as e:
+        assert "Erro ao processar"
