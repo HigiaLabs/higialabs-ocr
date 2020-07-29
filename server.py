@@ -23,6 +23,7 @@ def read_img(img):
 @app.post('/predict/')
 def prediction(request: Request, file: bytes = File(...)):
     try:
+
         if request.method == 'POST':
             image_stream = io.BytesIO(file)
             image_stream.seek(0)
