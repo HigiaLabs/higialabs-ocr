@@ -2,6 +2,7 @@
 import numpy as np
 import sys, os
 from fastapi import FastAPI, UploadFile, File
+from pydantic.env_settings import BaseSettings
 from starlette.requests import Request
 import io
 import cv2
@@ -13,13 +14,23 @@ from utils.processing.face_detect import Face
 app = FastAPI()
 
 
+class Settings(BaseSettings):
+    ...
+
+    class Config:
+        env_file = '.env'
+        env_file_encoding = 'utf-8'
+
+
+settings = Settings(_env_file='.env', _env_file_encoding='utf-8')
+
+
 class ImageType(BaseModel):
     url: str
 
 
 def read_img(img):
     pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
-    # pytesseract.pytesseract.tesseract_cmd = r'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
     text = pytesseract.image_to_string(img)
     return (text)
 
