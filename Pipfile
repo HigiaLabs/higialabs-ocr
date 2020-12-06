@@ -17,6 +17,7 @@ numpy = "==1.19.2"
 scikit-build = "*"
 opencv-python = "*"
 opencv-contrib-python = "*"
+pydantic = {extras = ["dotenv"], version = "*"}
 
 [requires]
 python_version = "3.8"
