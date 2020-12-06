@@ -43,14 +43,13 @@ app = FastAPI()
 def ocr(request: Request, file: bytes = File(...)):
     try:
 
-        if request.method == 'POST':
-            image_stream = io.BytesIO(file)
-            image_stream.seek(0)
-            file_bytes = np.asarray(bytearray(image_stream.read()), dtype=np.uint8)
-            frame = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
-            label = read_img(frame)
-            return label
-        return 'No post request found'
+        image_stream = io.BytesIO(file)
+        image_stream.seek(0)
+        file_bytes = np.asarray(bytearray(image_stream.read()), dtype=np.uint8)
+        frame = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
+        label = read_img(frame)
+        return label
+
 
     except AssertionError:
         assert 'Erro ao processar'
@@ -68,15 +67,11 @@ def face_detect(request: Request, file: bytes = File(...)):
         frame = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
         # label = read_img(frame)
         num, data = face.detect(frame)
-
         content = {
             "faces": num,
             "imagem_cinza": data,
 
         }
-
         return content
-
-
     except AssertionError:
         assert 'Erro ao processar'
