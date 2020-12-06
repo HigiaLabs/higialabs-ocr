@@ -1,0 +1,4 @@
+heroku/python
+https://github.com/heroku/heroku-buildpack-apt
+https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git
+https://github.com/J-A-M-E-5/heroku16-buildpack-python3-opencv-dlib
