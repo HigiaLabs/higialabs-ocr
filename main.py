@@ -25,8 +25,25 @@ def read_img(img):
 app = FastAPI()
 
 
-@app.post('/predict/')
-def prediction(request: Request, file: bytes = File(...)):
+@app.post('/ocr/')
+def ocr(request: Request, file: bytes = File(...)):
+    try:
+
+        if request.method == 'POST':
+            image_stream = io.BytesIO(file)
+            image_stream.seek(0)
+            file_bytes = np.asarray(bytearray(image_stream.read()), dtype=np.uint8)
+            frame = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
+            label = read_img(frame)
+            return label
+        return 'No post request found'
+
+    except AssertionError:
+        assert 'Erro ao processar'
+
+
+@app.post('/face-detect/')
+def face_detect(request: Request, file: bytes = File(...)):
     try:
 
         if request.method == 'POST':
