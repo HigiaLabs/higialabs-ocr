@@ -4,6 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+elasticsearch = {extras = ["async"], version = "*"}
 
 [packages]
 fastapi = {extras = ["all"], version = "*"}
@@ -18,6 +19,7 @@ scikit-build = "*"
 opencv-python = "*"
 opencv-contrib-python = "*"
 pydantic = {extras = ["dotenv"], version = "*"}
+imutils = "*"
 
 [requires]
 python_version = "3.8"
