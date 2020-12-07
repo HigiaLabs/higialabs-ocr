@@ -36,7 +36,11 @@ def read_img(img):
     return (text)
 
 
-app = FastAPI()
+app = FastAPI(
+    title="Higia Labs Vision",
+    description="Projeto que implementa OCR e detecção de faces",
+    version="1.0"
+)
 
 
 @app.post('/ocr/')
