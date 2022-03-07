@@ -72,9 +72,7 @@ def face_detect(request: Request, file: bytes = File(...)):
         # label = read_img(frame)
         num, data = face.detect(frame)
         content = {
-            "faces": num,
-            "imagem_cinza": data,
-
+            "num_faces": num,
         }
         return content
     except AssertionError:
