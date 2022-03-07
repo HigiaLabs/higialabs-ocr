@@ -1,13 +1,12 @@
 #####pythoncode.py#####
+import io
+
+import cv2
 import numpy as np
-import sys, os
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, File
+from pydantic import BaseModel
 from pydantic.env_settings import BaseSettings
 from starlette.requests import Request
-import io
-import cv2
-import pytesseract
-from pydantic import BaseModel
 
 from utils.processing.face_detect import Face
 
@@ -41,9 +40,7 @@ app = FastAPI(
 @app.post('/face-detect/')
 def face_detect(request: Request, file: bytes = File(...)):
     try:
-
         face = Face()
-
         image_stream = io.BytesIO(file)
         image_stream.seek(0)
         file_bytes = np.asarray(bytearray(image_stream.read()), dtype=np.uint8)
