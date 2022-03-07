@@ -12,6 +12,11 @@ from utils.processing.face_detect import Face
 
 app = FastAPI()
 
+app = FastAPI(
+    title="Higia Labs Vision",
+    description="Projeto que implementa detecção de faces",
+    version="1.0"
+)
 
 class Settings(BaseSettings):
     ...
@@ -23,18 +28,12 @@ class Settings(BaseSettings):
 
 settings = Settings(_env_file='.env', _env_file_encoding='utf-8')
 
-print(settings)
-
 
 class ImageType(BaseModel):
     url: str
 
 
-app = FastAPI(
-    title="Higia Labs Vision",
-    description="Projeto que implementa detecção de faces",
-    version="1.0"
-)
+
 
 
 @app.post('/face-detect/')
